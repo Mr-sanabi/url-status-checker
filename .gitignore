@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+
+.venv/
+venv/
+
+log.txt
+*.log
+
+data/output_*.csv
+data/empty_urls.txt
