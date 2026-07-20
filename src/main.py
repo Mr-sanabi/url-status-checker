@@ -1,8 +1,8 @@
 import argparse
 import logging
-from logger_config import setup_logging
-from storage import read_urls, save_results_csv
-from checker import check_url
+from src.logger_config import setup_logging
+from src.storage import read_urls, save_results_csv
+from src.checker import check_url
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -34,7 +34,7 @@ def main():
     failed_count = 0
     success_count = 0
     for result in results:
-        if result["status"] == "failed":
+        if result["status"] != "ok":
             failed_count+=1
         else:
             success_count+=1
