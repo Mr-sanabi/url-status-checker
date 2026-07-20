@@ -9,3 +9,10 @@ log.txt
 
 data/output_*.csv
 data/empty_urls.txt
+
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.DS_Store
+Thumbs.db

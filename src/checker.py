@@ -6,7 +6,7 @@ def check_url(url):
         result = {
             "url": url,
             "status_code": response.status_code,
-            "status": "ok",
+            "status": "ok" if response.ok else "http_error",
             "error": "",
             "response_time": response.elapsed.total_seconds()
         }
@@ -16,10 +16,10 @@ def check_url(url):
     except requests.RequestException as error:  
         result = {
             "url": url,
-            "status_code": "",
+            "status_code": None,
             "status": "failed",
             "error": str(error),
-            "response_time": ""
+            "response_time": None
         }
 
         return result

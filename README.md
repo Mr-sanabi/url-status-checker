@@ -1,87 +1,43 @@
 # URL Status Checker
 
-URL Status Checker is a small Python CLI tool that checks a list of URLs, records HTTP status results, handles failed requests, and exports the results to a CSV file.
+A small Python CLI that checks a list of URLs and exports a repeatable CSV health report.
 
-## Features
+## What it does
 
-* Reads URLs from a text file.
-* Accepts input and output paths through CLI arguments.
-* Checks each URL using HTTP requests.
-* Records HTTP status codes.
-* Measures response time.
-* Handles broken URLs, timeouts, connection errors, and invalid domains.
-* Saves results to a CSV file.
-* Generates a logging-based summary.
-* Handles missing input files.
-* Handles empty input files.
+- normalizes and deduplicates URLs from a text file;
+- distinguishes successful responses, HTTP errors, and request failures;
+- records status code, response time, final URL, and error details;
+- writes logs to both the terminal and `logs/checker.log`;
+- creates missing output directories automatically.
 
-## Tech Stack
+## Stack
 
-* Python
-* requests
-* argparse
-* csv
-* logging
+Python 3.11+, Requests, argparse, CSV, pytest.
 
-## How to Run
-
-Install dependencies:
+## Usage
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+python -m src.main data/urls.txt data/url_status.csv
 ```
 
-Run the checker:
+The input file contains one URL per line. Blank lines and repeated URLs are ignored.
+
+## Tests
 
 ```bash
-python src/main.py data/input_urls.txt data/output_status.csv
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
 ```
 
-Arguments:
+## Output status
 
-* `input_file` — path to a text file with URLs.
-* `output_file` — path where the CSV results will be saved.
+| Status | Meaning |
+|---|---|
+| `ok` | HTTP response was successful |
+| `http_error` | Server returned a non-success status |
+| `request_error` | Connection, DNS, timeout, or another request failure |
 
-## Input Example
+## Scope
 
-```text
-https://example.com
-https://github.com
-https://httpbin.org/status/404
-https://this-domain-does-not-exist-12345.com
-```
-
-## Output Example
-
-```csv
-url,status_code,status,error,response_time
-https://example.com,200,ok,,0.23
-https://github.com,200,ok,,0.25
-https://httpbin.org/status/404,404,ok,,0.60
-https://this-domain-does-not-exist-12345.com,,failed,NameResolutionError..., 
-```
-
-## Example Summary
-
-```text
-URL Status Checker summary
-Checked URLs: 4
-Successful requests: 3
-Failed requests: 1
-Output file: data/output_status.csv
-```
-
-## Current Status
-
-MVP completed.
-
-The project can read URLs from a text file, check their HTTP response status, handle failed requests, export results to CSV, and generate a logging-based summary.
-
-## Do Not Commit
-
-Generated files should not be committed:
-
-```text
-data/output_status.csv
-log.txt
-```
+This is a focused CLI utility, not a distributed uptime-monitoring service.
